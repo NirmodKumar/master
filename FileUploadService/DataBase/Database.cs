@@ -8,5 +8,6 @@ namespace FileUploadService.DataBase
     public class Database
     {
         public int ID { get; set; }
+
     }
 }
