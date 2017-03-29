@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <!--Table to capture username and password-->
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <th colspan="2">
+                            File Upload Demo
+                            <input type="button" class="btn btn-success pull-right" id="btnLogoff" value="Logoff"/>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Please Upload a file</td>
+                        <td>
+                            <input type="file" id="FileUpload"/>
+                        </td>
+                    </tr>
+                
+                    <tr class="success">
+                        <td colspan="2">
+                            <input id="btnUpload" class="btn btn-success" type="button"
+                                   value="Upload" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Bootstrap alert to display error message if the login fails-->
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" href="#" class="close">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var accessToken = sessionStorage.getItem("accessToken");
+            debugger;
+            if (!accessToken || accessToken=="") {
+                window.location.href = "Login.html";
+            }           
+        });
+        $('#btnLogoff').click(function () {
+            sessionStorage.removeItem('accessToken');
+            window.location.href = "Login.html";
+        });
+        $('#btnUpload').click(function () {
+            var data = new FormData();
+
+            var files = $("#FileUpload").get(0).files;
+
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+            var ajaxRequest = $.ajax({
+                type: "POST",
+                url: "/api/fileupload/uploadfile",
+                contentType: false,
+                processData: false,
+                data: data
+            }).success(function(response) {
+                // Do other operation
+            });
+        });
+    </script>
+</body>
+</html>
