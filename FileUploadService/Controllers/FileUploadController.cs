@@ -35,6 +35,7 @@ namespace FileUploadService.Controllers
         [HttpPost]
         public void UploadFile1()
         {
+
         }
     }
 }
